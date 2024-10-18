@@ -1,0 +1,136 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Code and Gamertag Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .code-container {
+            margin-top: 20px;
+        }
+        .generated-code {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f3f3f3;
+            border: 1px solid #ccc;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <h1>Random Code and Gamertag Generator</h1>
+    <label for="dropdown">Choose an option:</label>
+    <select id="dropdown" onchange="showGenerateButton()">
+        <option value="">Select</option>
+        <option value="xbox">Xbox</option>
+        <option value="roblox">Roblox</option>
+        <option value="gamertag">Gamertag Generator</option>
+    </select>
+
+    <div id="generate-section" class="code-container" style="display: none;">
+        <button onclick="generateCode()">Generate</button>
+        <div id="generated-code" class="generated-code"></div>
+    </div>
+
+    <script>
+        const verbs = [
+            "Jumping", "Running", "Flying", "Diving", "Bouncing", "Sprinting", "Slashing", "Hiding", 
+            "Dodging", "Attacking", "Defending", "Chasing", "Escaping", "Climbing", "Crawling", 
+            "Swimming", "Shooting", "Spinning", "Charging", "Leaping", "Dashing", "Vaulting", 
+            "Drifting", "Riding", "Striking", "Flipping", "Hurling", "Grabbing", "Crushing", 
+            "Throwing", "Slicing", "Punching", "Kicking", "Smashing", "Gliding", "Soaring", 
+            "Swinging", "Exploding", "Blasting", "Vaporizing", "Evading", "Conquering", "Looting", 
+            "Bashing", "Lurking", "Stomping", "Spinning", "Flashing", "Whispering", "Zooming", 
+            "Blazing", "Clashing", "Growling", "Crashing", "Haunting", "Roaring", "Rumbling", 
+            "Surging", "Crushing", "Howling", "Wrestling", "Tumbling", "Struggling", "Quaking", 
+            "Thrashing", "Piercing", "Raging", "Hacking", "Drilling", "Swerving", "Bursting", 
+            "Scorching", "Shredding", "Blending", "Colliding", "Roaming", "Surging", "Flickering", 
+            "Radiating", "Vibrating", "Blurring", "Falling", "Tackling", "Grinding", "Swirling", 
+            "Cranking", "Waving", "Juggling", "Melting", "Sizzling", "Bubbling", "Zapping", 
+            "Glowing", "Pulsing", "Ripping", "Echoing", "Tapping", "Creeping", "Beaming"
+        ];
+
+        const items = [
+            "Dragon", "Phoenix", "Wolf", "Tiger", "Lion", "Shark", "Eagle", "Falcon", "Gorilla", 
+            "Sword", "Shield", "Blaster", "Sniper", "Arrow", "Axe", "Ninja", "Samurai", "Knight", 
+            "Alien", "Robot", "Zombie", "Pirate", "Viking", "Ranger", "Berserker", "Warrior", 
+            "Wizard", "Sorcerer", "Elf", "Dwarf", "Giant", "Golem", "Beast", "Monster", "Ghost", 
+            "Ghoul", "Reaper", "Hunter", "Archer", "Cyborg", "Titan", "Demon", "Angel", "Hawk", 
+            "Griffin", "Behemoth", "Wraith", "Sphinx", "Ogre", "Mermaid", "Yeti", "Minotaur", 
+            "Pegasus", "Chimera", "Kraken", "Leviathan", "Dragonfly", "Mammoth", "Cyclone", 
+            "Hurricane", "Tornado", "Meteor", "Comet", "Star", "Nebula", "Asteroid", "Planet", 
+            "Galaxy", "Vortex", "Blizzard", "Inferno", "Thunder", "Lightning", "Volt", "Flame", 
+            "Frost", "Blaze", "Ember", "Shadow", "Raven", "Storm", "Tempest", "Blizzard", 
+            "Bolt", "Flash", "Spark", "Glitch", "Specter", "Shade", "Phantom", "Spectral", 
+            "Pulse", "Wraith", "Void", "Echo", "Gale", "Surge", "Fury"
+        ];
+
+        function showGenerateButton() {
+            const dropdown = document.getElementById('dropdown');
+            const generateSection = document.getElementById('generate-section');
+
+            if (dropdown.value === 'xbox' || dropdown.value === 'roblox' || dropdown.value === 'gamertag') {
+                generateSection.style.display = 'block';
+            } else {
+                generateSection.style.display = 'none';
+                document.getElementById('generated-code').innerText = '';
+            }
+        }
+
+        function generateCode() {
+            const letters = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+            const numbers = '123456789';
+            const dropdownValue = document.getElementById('dropdown').value;
+            let code = '';
+
+            if (dropdownValue === 'xbox') {
+                for (let i = 0; i < 5; i++) {
+                    let segment = [];
+
+                    for (let j = 0; j < 3; j++) {
+                        segment.push(letters.charAt(Math.floor(Math.random() * letters.length)));
+                    }
+
+                    for (let k = 0; k < 2; k++) {
+                        segment.push(numbers.charAt(Math.floor(Math.random() * numbers.length)));
+                    }
+
+                    segment = segment.sort(() => Math.random() - 0.5).join('');
+                    code += segment;
+                    if (i < 4) code += '-';
+                }
+            } else if (dropdownValue === 'roblox') {
+                code += generateRandomNumbers(3) + '-';
+                code += generateRandomNumbers(3) + '-';
+                code += generateRandomNumbers(4);
+            } else if (dropdownValue === 'gamertag') {
+                const verb = verbs[Math.floor(Math.random() * verbs.length)];
+                const item = items[Math.floor(Math.random() * items.length)];
+                const randomNumber = generateRandomNumbers(Math.floor(Math.random() * 3) + 1);
+
+                code = `${verb}${item}${randomNumber}`;
+                
+                if (code.length > 14) {
+                    code = code.substring(0, 14);
+                }
+            }
+
+            document.getElementById('generated-code').innerText = code;
+        }
+
+        function generateRandomNumbers(length) {
+            const numbers = '123456789';
+            let result = '';
+            for (let i = 0; i < length; i++) {
+                result += numbers.charAt(Math.floor(Math.random() * numbers.length));
+            }
+            return result;
+        }
+    </script>
+</body>
+</html>
